@@ -16,10 +16,10 @@
     "max-nested-callbacks": ["error", 4],
     "no-else-return": "error",
     "no-eq-null": "error",
+    "no-multiple-empty-lines": ["error", {"max": 2}],
     "no-nested-ternary": "error",
     "no-process-exit": "warn",
     "no-sync": "warn",
-    "no-undefined": "error",
     "no-warning-comments": "warn",
     "strict": "error",
     "valid-jsdoc": "error"

@@ -23,6 +23,7 @@ function initializeCassandra () {
           return
         }
         console.log('successfully connected to cassandra!') // eslint-disable-line
+        Bluebird.promisifyAll(client)
         global.cassandra = client
         resolve(client)
       })

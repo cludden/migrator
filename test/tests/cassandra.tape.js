@@ -1,45 +1,11 @@
+import Bluebird from 'bluebird'
 import fs from 'fs'
-import Migrator from '../../lib'
+import migrator from '../migrators/cassandra'
 import test from 'tape'
-import testUtils from '../utils'
 import { getSection } from '../../lib/utils'
 import _ from 'lodash'
 
 const ids = fs.readdirSync(`${__dirname}/../migrations/cassandra`) // eslint-disable-line
-
-const migrator = _.attempt(function () {
-  return new Migrator({
-    down (task) {
-      return testUtils.processCassandraTask(cassandra, task)
-    },
-
-    executed () {
-      const cql = 'SELECT * FROM migrations'
-      cassandra.query(cql)
-    .then(result => result.rows)
-    .catch(() => [])
-    },
-
-    log (id) {
-      const created = new Date()
-      const cql = `INSERT INTO migrations (id, created)
-    VALUES (:id, :created)`
-      return cassandra.query(cql, { id, created })
-    },
-
-    path: `${__dirname}/../migrations/cassandra`,
-
-    unlog (id) {
-      const cql = `DELETE * FROM migrations
-    WHERE id = :id`
-      return cassandra.query(cql, { id })
-    },
-
-    up (task) {
-      return testUtils.processCassandraTask(cassandra, task)
-    }
-  })
-})
 
 test('constructor tests', t => {
   t.equal(migrator instanceof Error, false, 'should not throw')
@@ -47,80 +13,108 @@ test('constructor tests', t => {
   t.end()
 })
 
+
 test('#getExecuted', t => {
-  migrator.getExecuted()
+  migrator.getLastExecuted()
   .then(executed => {
-    t.deepEqual(executed, [], 'should return an empty array')
+    t.deepEqual(executed, undefined, '#getExecuted should return undefined')
     t.end()
   })
   .catch(t.end)
 })
+
 
 test('#getMigrations', t => {
   migrator.getMigrations()
   .then(migrations => {
-    t.deepEqual(migrations, ids, 'should be equal')
+    t.deepEqual(migrations, ids, `#getMigrations should equal ${JSON.stringify(ids)}`)
     t.end()
   })
   .catch(t.end)
 })
 
+
 test('#getPending', t => {
   migrator.getPending()
   .then(pending => {
-    t.deepEqual(pending, ids, 'should be equal')
+    t.deepEqual(pending, ids, `#getPending should equal ${JSON.stringify(ids)}`)
     t.end()
   })
   .catch(t.end)
 })
+
 
 test('#up', t => {
   migrator.up()
   .then(executed => {
     t.deepEqual(executed, ids, '#up return value should be equal to all ids')
   })
-  .then(migrator.getPending)
+  .then(migrator.getPending.bind(migrator))
   .then(pending => {
     t.deepEqual(pending, [], '#getPending should be an empty array')
   })
-  .then(migrator.getExecuted)
-  .then(executed => {
-    t.deepEqual(executed, ids, '#getExecuted should be equal to all ids')
+  .then(migrator.getLastExecuted.bind(migrator))
+  .then(last => {
+    t.equal(last, _.last(ids), '#getLastExecuted should return the last id')
     t.end()
   })
   .catch(t.end)
 })
+
 
 test('#down', t => {
   migrator.down()
   .then(executed => {
-    t.deepEqual(executed, ids, '#up return value should be equal to all ids')
+    const expected = _.reverse(ids.slice())
+    t.deepEqual(executed, expected, `#down return value should be equal to ${JSON.stringify(expected)}`)
   })
-  .then(migrator.getPending)
+  .then(migrator.getPending.bind(migrator))
   .then(pending => {
     t.deepEqual(pending, ids, '#getPending should be equal to all ids')
   })
-  .then(migrator.getExecuted)
-  .then(executed => {
-    t.deepEqual(executed, [], '#getExecuted should be an empty array')
+  .then(migrator.getLastExecuted.bind(migrator))
+  .then(last => {
+    t.equal(last, undefined, '#getLastExecuted should be undefined')
     t.end()
   })
   .catch(t.end)
 })
 
+
 test('#up(to)', t => {
-  const expected = getSection(ids, 'up', '2016-01-01-00-00-00', '2016-08-23-15-49-59')
-  migrator.up({ to: '2016-08-23-15-49-59' })
+  const to = '1.1.0'
+  const expected = getSection(ids, 'up', ids[0], to)
+  migrator.up({ to })
   .then(executed => {
-    t.deepEequal(executed, expected)
+    t.deepEqual(executed, expected, '#up(to) should return correct list of executed ids')
   })
-  .then(migrator.getPending)
+  .then(migrator.getPending.bind(migrator))
   .then(pending => {
-    t.deepEqual(pending, ['2016-08-23-21-32-26'])
+    t.deepEqual(pending, _.takeRight(ids), '#getPending should return last id')
   })
-  .then(migrator.getExecuted)
+  .then(migrator.getLastExecuted.bind(migrator))
+  .then(last => {
+    t.equal(last, _.last(expected), '#getLastExecuted should return last id of the slice')
+    t.end()
+  })
+  .catch(t.end)
+})
+
+
+test('#down(to)', t => {
+  const to = '1.0.0'
+  const expected = getSection(ids, 'down', '1.1.0', to)
+  migrator.down({ to })
   .then(executed => {
-    t.deepEqual(executed, expected)
+    t.deepEqual(executed, expected, '#down(to) should return the correct list of executed ids')
+  })
+  .then(migrator.getPending.bind(migrator))
+  .then(pending => {
+    t.deepEqual(pending, getSection(ids, 'up', '1.1.0'), '#getPending should return the correct ids')
+  })
+  .then(migrator.getLastExecuted.bind(migrator))
+  .then(last => {
+    t.equal(last, '1.0.0', 'should return correct last executed')
     t.end()
   })
   .catch(t.end)

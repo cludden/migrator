@@ -7,16 +7,16 @@ USE test;
 
 // create version table
 CREATE TABLE version_history (
+  pk text,
+  ts timeuuid,
+  type text,
   version text,
-  action text,
-  start timestamp,
-  end timestamp,
-  PRIMARY KEY (version, action)
-);
+  PRIMARY KEY ((pk), ts, type)
+) WITH CLUSTERING ORDER BY (ts DESC, type DESC);
 
 // insert version bump start
-INSERT INTO version_history (version, action, start)
-VALUES ('1.0.0', 'up', toTimestamp(now()));
+INSERT INTO version_history (pk, ts, type, version)
+VALUES ('schema_version', now(), 'start', '1.0.0');
 
 // do migration
 CREATE TABLE migrations (
@@ -26,7 +26,5 @@ CREATE TABLE migrations (
 );
 
 // insert version bump end
-UPDATE version_history
-WHERE version = '1.0.0'
-  AND action = 'up'
-SET end = toTimestamp(now());
+INSERT INTO version_history (pk, ts, type, version)
+VALUES ('schema_version', now(), 'end', '1.0.0');
