@@ -1,0 +1,27 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "standard"
+  ],
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "globals": {
+    "cassandra": true
+  },
+  "rules": {
+    "block-scoped-var": "error",
+    "consistent-this": ["error", "self"],
+    "func-style": ["error", "declaration"],
+    "max-nested-callbacks": ["error", 4],
+    "no-else-return": "error",
+    "no-eq-null": "error",
+    "no-nested-ternary": "error",
+    "no-process-exit": "warn",
+    "no-sync": "warn",
+    "no-undefined": "error",
+    "no-warning-comments": "warn",
+    "strict": "error",
+    "valid-jsdoc": "error"
+  }
+}
