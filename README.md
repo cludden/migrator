@@ -1,42 +1,40 @@
-# migrator
-database agnostic migration client. *work in progress*
+ # termigrator
+low level, database agnostic migration client. this library makes no assumption of what a migration looks like, how it stored, etc. why the name *termigrator*? partly because all migration related names have been taken on npm, but mostly because why not?
 
 
 
-## installing
+## Installing
 ```bash
-npm install --save migrator
+npm install --save termigrator
 ```
+
 
 
 ## Getting Started
-1. define a directory to hold your migrations
-```
-/root
-  /migrations
-    /0.0.0
-      - up.js
-      - down.js
-    /0.1.0
-      - up.js
-      - down.js
-```
+1. define one or more migrations in a way that makes sense for your database.
+
 2. instantiate new client
 ```javascript
-import Migrator from 'migrator'
+import Migrator from 'termigrator'
 
 const migrator = new Migrator({
   // define a migration handler that is responsible for executing the appropriate
   // migration for the given id & method combination. this method should return a
   // promise
-  exec(id, method) {
+  execMigration(id, method) {
     // .. return a promise
   },
 
   // define a method for determining the last executed migration
   // this should return a promise that resolves to the last executed migration
   // id or undefined if no migrations have been executed
-  last() {
+  getLastExecuted() {
+    // .. return a promise
+  },
+
+  // define a method for retrieving the sorted list of all available migration
+  // ids. this method should return a promise
+  getMigrations() {
     // .. return a promise
   },
 
@@ -47,14 +45,10 @@ const migrator = new Migrator({
   },
 
   // define the path to the migration directory
-  path: `${__dirname}/migrations`,
-
-  // define a method for sorting the migration ids in the correct order
-  sort(migrations) {
-    return semverSort.asc(migrations)
-  }
+  path: `${__dirname}/migrations`
 })
 ```
+
 3. perform forwards or backwards migrations
 ```javascript
 // execute all pending migrations
@@ -77,14 +71,14 @@ constructor function
 | name | type | description |
 | --- | --- | --- |
 | options* | Object | options |
-| options.exec* | Function | A method in the form of `exec(id, method) => promise` that is responsible for executing the appropriate migration |
-| options.last* | Function | A method in the form of `last() => promise` that is responsible for determining the id of the last executed migration. |
+| options.execMigration* | Function | A method in the form of `exec(id, method) => promise` that is responsible for executing the appropriate migration |
+| options.getLastExecuted* | Function | A method in the form of `last() => promise` that is responsible for determining the id of the last executed migration. |
+| options.getMigrations* | Function | A method in the form of `getMigrations() => promise` that is responsible for providing the sorted list of migration ids. |
 | options.log* | Function | A method in the form of `log(id, method, event) => promise` that is responsible for logging migration activity. *id* is the migration id of the currently executing migration, *method* is the direction of the migration (up or down), and *event* is the migration event name (start or end) |
 | options.path* | String | The absolute path to the migration directory |
-| options.sort* | Function | A method in the form of `sort(migrations) => sorted` that is responsible for sorting the migration ids |
 
 
-### migrator.down(options)
+### #down(options)
 run downwards migrations
 
 ##### Arguments
@@ -104,7 +98,7 @@ migrator.down({ to: '0.9.0' })
 ```
 
 
-### migrator.execute(id, method)
+### #execute(id, method)
 execute a single migration in the specified direction. *note: this method is used by the #up and #down to execute migrations*
 
 ##### Arguments
@@ -122,7 +116,7 @@ migrator.execute('1.0.0', 'up')
 ```
 
 
-### migrator.getLastExecuted()
+### #getLastExecuted()
 wrapper method around the user defined #last method
 
 ##### Returns
@@ -134,7 +128,7 @@ migrator.getLastExecuted().then(id => console.log(id))
 ```
 
 
-### migrator.getMigrations()
+### #getMigrations()
 get a sorted list of all defined migrations
 
 ##### Returns
@@ -146,7 +140,7 @@ migrator.getMigrations().then(migrations => console.log(migrations))
 ```
 
 
-### migrator.getPending()
+### #getPending()
 get a list of pending migrations
 
 ##### Returns
@@ -158,7 +152,7 @@ migrator.getPending().then(pending => console.log(pending))
 ```
 
 
-### migrator.up(options)
+### #up(options)
 run pending migrations
 
 ##### Arguments
@@ -176,3 +170,24 @@ migrator.up()
 
 migrator.up({ to: '1.0.0' })
 ```
+
+
+
+## Testing
+run all tests
+```bash
+docker-compose up
+```
+
+
+## Contributing
+1. [Fork it](https://github.com/cludden/termigrator/fork)
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
+
+
+## License
+Copyright (c) 2016 Chris Ludden.
+Licensed under the [MIT license](LICENSE.md).
