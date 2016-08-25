@@ -1,5 +1,5 @@
 {
-  "name": "migrator",
+  "name": "termigrator",
   "version": "0.1.0",
   "description": "database agnostic migration client",
   "main": "./dist/index.js",
@@ -10,7 +10,14 @@
     "test": "babel-tape-runner -r ./test/tests/index.tape.js ./test/tests/**/*.tape.js"
   },
   "keywords": [
-    "migrator"
+    "migrations",
+    "migration",
+    "migrator",
+    "database",
+    "cassandra",
+    "mysql",
+    "postgresql",
+    "pipelinedb"
   ],
   "author": "chris ludden",
   "license": "MIT",

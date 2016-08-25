@@ -1,11 +1,10 @@
-import Bluebird from 'bluebird'
 import fs from 'fs'
 import migrator from '../migrators/cassandra'
 import test from 'tape'
 import { getSection } from '../../lib/utils'
 import _ from 'lodash'
 
-const ids = fs.readdirSync(`${__dirname}/../migrations/cassandra`) // eslint-disable-line
+const ids = fs.readdirSync(`${__dirname}/../migrators/cassandra/migrations`) // eslint-disable-line
 
 test('constructor tests', t => {
   t.equal(migrator instanceof Error, false, 'should not throw')
