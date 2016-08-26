@@ -1,9 +1,9 @@
 import Bluebird from 'bluebird'
 import fs from 'fs'
 import joi from 'joi'
-import Migrator from '../../../lib'
+import { Migrator } from '../../../lib'
 import semverSort from 'semver-sort'
-import { validate } from '../../../lib/utils'
+import { validate } from '../../../lib/migrator/utils'
 import { attempt, compact, findIndex } from 'lodash'
 
 Bluebird.promisifyAll(fs)
@@ -96,4 +96,4 @@ const migrator = attempt(function () {
   })
 })
 
-export default migrator
+export { migrator }
