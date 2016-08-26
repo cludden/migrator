@@ -1,4 +1,4 @@
- # termigrator
+# termigrator
 low level, database agnostic migration client. this library makes no assumption of what a migration looks like, how it stored, etc. why the name *termigrator*? partly because all migration related names have been taken on npm, but mostly because why not?
 
 
@@ -11,11 +11,11 @@ npm install --save termigrator
 
 
 ## Getting Started
-1. define one or more migrations in a way that makes sense for your database.
+- define one or more migrations in a way that makes sense for your database.
+- instantiate new client
 
-2. instantiate new client
 ```javascript
-import Migrator from 'termigrator'
+import { Migrator } from 'termigrator'
 
 const migrator = new Migrator({
   // define a migration handler that is responsible for executing the appropriate
@@ -48,8 +48,8 @@ const migrator = new Migrator({
   path: `${__dirname}/migrations`
 })
 ```
+- perform forwards or backwards migrations directly
 
-3. perform forwards or backwards migrations
 ```javascript
 // execute all pending migrations
 migrator.up().then(executed => console.log(executed))
@@ -59,6 +59,25 @@ migrator.up({ to: '1.0.0' })
 
 // rollback to a prior point
 migrator.down({ to: '0.9.0' })
+```
+- or use the included cli
+
+```javascript
+import { cli } from 'termigrator'
+
+/**
+ * Define a function that returns a promise that resovles to your configured
+ * migrator instance
+ * @return {Promise} promise
+ */
+function getMigrator() {
+  return connectToDatabase()
+  .then(db => {
+    return initializeMigrator(db)
+  })
+}
+
+cli(getMigrator).start()
 ```
 
 
@@ -170,6 +189,16 @@ migrator.up()
 
 migrator.up({ to: '1.0.0' })
 ```
+
+
+
+## CLI
+Basic usage
+```bash
+$ termigrator --help
+```
+
+### Commands
 
 
 

@@ -1,7 +1,7 @@
+import { migrator } from '../migrators/cassandra'
 import fs from 'fs'
-import migrator from '../migrators/cassandra'
 import test from 'tape'
-import { getSection } from '../../lib/utils'
+import { getSection } from '../../lib/migrator/utils'
 import _ from 'lodash'
 
 const ids = fs.readdirSync(`${__dirname}/../migrators/cassandra/migrations`) // eslint-disable-line

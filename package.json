@@ -1,6 +1,6 @@
 {
   "name": "termigrator",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "database agnostic migration client",
   "main": "./dist/index.js",
   "scripts": {
@@ -24,8 +24,11 @@
   "dependencies": {
     "async": "^2.0.1",
     "bluebird": "^3.4.1",
+    "colors": "^1.1.2",
+    "commander": "^2.9.0",
     "joi": "^9.0.4",
     "lodash": "^4.15.0",
+    "promptly": "^2.1.0",
     "retry": "^0.10.0",
     "stack-trace": "0.0.9",
     "uuid-time": "^1.0.0"
