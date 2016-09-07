@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [UNRELEASED]
+
+### Added
+- adds `exec` cli command
+- adds `silent` option for `migrator.execute`
+
+
+
 ## [v0.3.0] - 2016-08-26
 
 ### Added
@@ -11,6 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - #3 prevents cli prompts for up/down migrations if there are no pending/downward migrations
+
 
 
 ## [v0.3.0-0] - 2016-08-26

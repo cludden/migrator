@@ -66,7 +66,7 @@ migrator.down({ to: '0.9.0' })
 import { cli } from 'termigrator'
 
 /**
- * Define a function that returns a promise that resovles to your configured
+ * Define a function that returns a promise that resolves to your configured
  * migrator instance
  * @return {Promise} promise
  */
