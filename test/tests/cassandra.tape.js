@@ -118,3 +118,12 @@ test('#down(to)', t => {
   })
   .catch(t.end)
 })
+
+
+test('#exec', t => {
+  const id = '1.1.0'
+  migrator.execute(id, 'up', { log: false })
+  .then(_id => t.equal(_id, id, `should return ${id}`))
+  .catch(t.error)
+  .finally(t.end)
+})
