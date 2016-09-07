@@ -198,7 +198,60 @@ Basic usage
 $ termigrator --help
 ```
 
-### Commands
+### current
+```bash
+$ termigrator current
+```
+List the last executed migration
+
+---
+
+### down
+```bash
+$ termigrator down
+```
+Run migrations in the *down* direction
+
+###### Options
+| name | description |
+| --- | --- |
+| -t, --to | the exclusive lower limit on the migrations to execute |
+
+---
+
+### exec
+```bash
+$ termigrator exec <id> <method>
+```
+Execute a single migration method
+
+###### Options
+| name | description |
+| --- | --- |
+| -s, --silent | skip logging of migration events |
+
+---
+
+### pending
+```bash
+$ termigrator pending
+```
+List all pending migrations for the current environment
+
+---
+
+### up
+```bash
+$ termigrator up
+```
+Run pending migrations in the *up* direction
+
+###### Options
+| name | description |
+| --- | --- |
+| -t, --to | the inclusive upper limit on the migrations to execute |
+
+---
 
 
 
