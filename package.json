@@ -21,6 +21,8 @@
   ],
   "author": "chris ludden",
   "license": "MIT",
+  "repository": "cludden/termigrator",
+  "homepage": "https://github.com/cludden/termigrator",
   "dependencies": {
     "async": "^2.0.1",
     "bluebird": "^3.4.1",
