@@ -6,6 +6,8 @@ import _ from 'lodash'
 
 const ids = fs.readdirSync(`${__dirname}/../migrators/cassandra/migrations`) // eslint-disable-line
 
+test.onFinish(() => process.exit(0))
+
 test('constructor tests', t => {
   t.equal(migrator instanceof Error, false, 'should not throw')
   t.equal(_.isObject(migrator), true, 'should be an object')
@@ -17,9 +19,8 @@ test('#getExecuted', t => {
   migrator.getLastExecuted()
   .then(executed => {
     t.deepEqual(executed, undefined, '#getExecuted should return undefined')
-    t.end()
   })
-  .catch(t.end)
+  .finally(t.end)
 })
 
 
@@ -27,9 +28,8 @@ test('#getMigrations', t => {
   migrator.getMigrations()
   .then(migrations => {
     t.deepEqual(migrations, ids, `#getMigrations should equal ${JSON.stringify(ids)}`)
-    t.end()
   })
-  .catch(t.end)
+  .finally(t.end)
 })
 
 
@@ -37,9 +37,8 @@ test('#getPending', t => {
   migrator.getPending()
   .then(pending => {
     t.deepEqual(pending, ids, `#getPending should equal ${JSON.stringify(ids)}`)
-    t.end()
   })
-  .catch(t.end)
+  .finally(t.end)
 })
 
 
@@ -55,9 +54,8 @@ test('#up', t => {
   .then(migrator.getLastExecuted.bind(migrator))
   .then(last => {
     t.equal(last, _.last(ids), '#getLastExecuted should return the last id')
-    t.end()
   })
-  .catch(t.end)
+  .finally(t.end)
 })
 
 
@@ -74,9 +72,8 @@ test('#down', t => {
   .then(migrator.getLastExecuted.bind(migrator))
   .then(last => {
     t.equal(last, undefined, '#getLastExecuted should be undefined')
-    t.end()
   })
-  .catch(t.end)
+  .finally(t.end)
 })
 
 
@@ -94,9 +91,8 @@ test('#up(to)', t => {
   .then(migrator.getLastExecuted.bind(migrator))
   .then(last => {
     t.equal(last, _.last(expected), '#getLastExecuted should return last id of the slice')
-    t.end()
   })
-  .catch(t.end)
+  .finally(t.end)
 })
 
 
@@ -114,15 +110,29 @@ test('#down(to)', t => {
   .then(migrator.getLastExecuted.bind(migrator))
   .then(last => {
     t.equal(last, '1.0.0', 'should return correct last executed')
-    t.end()
   })
-  .catch(t.end)
+  .finally(t.end)
+})
+
+
+test('#goto', t => {
+  const first = '1.2.0'
+  const second = '1.1.0'
+  migrator.goto(first)
+  .then(executed => {
+    t.deepEqual(executed, ['1.1.0', '1.2.0'])
+  })
+  .then(() => migrator.goto(second))
+  .then(executed => {
+    t.deepEqual(executed, ['1.2.0'])
+  })
+  .finally(t.end)
 })
 
 
 test('#exec', t => {
-  const id = '1.1.0'
-  migrator.execute(id, 'up', { log: false })
+  const id = '1.2.0'
+  migrator.execute(id, 'up')
   .then(_id => t.equal(_id, id, `should return ${id}`))
   .catch(t.error)
   .finally(t.end)
