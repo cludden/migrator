@@ -43,9 +43,6 @@ const migrator = new Migrator({
   log(id, method, event) {
     // .. return a promise
   },
-
-  // define the path to the migration directory
-  path: `${__dirname}/migrations`
 })
 ```
 - perform forwards or backwards migrations directly
@@ -103,8 +100,8 @@ run downwards migrations
 ##### Arguments
 | name | type | description |
 | --- | --- | --- |
-| options | Object | options |
-| options.to | String | The (exclusive) id of the migration to roll back to. |
+| options | *Object* | options |
+| options.to | *String* | The (exclusive) id of the migration to roll back to. |
 
 ##### Returns
 - promise - resolves to an array of migration ids that were executed
@@ -123,8 +120,8 @@ execute a single migration in the specified direction. *note: this method is use
 ##### Arguments
 | name | type | description |
 | --- | --- | --- |
-| id* | String | the id of the migration to execute |
-| method* | String | *up* or *down* |
+| id | String | the id of the migration to execute |
+| method | String | *up* or *down* |
 
 ##### Returns
 - promise - resolves to the id of the executed task
@@ -132,6 +129,18 @@ execute a single migration in the specified direction. *note: this method is use
 ##### Example
 ```javascript
 migrator.execute('1.0.0', 'up')
+```
+
+
+### #getGotoVersions(version)
+Get a list of migrations to be executed with direction to migrate to the specified version
+
+##### Returns
+- promise - resolves to an array of migration ids that are ahead of the last executed migration
+
+##### Example
+```javascript
+migrator.goto('1.0.0')
 ```
 
 
@@ -171,14 +180,31 @@ migrator.getPending().then(pending => console.log(pending))
 ```
 
 
-### #up(options)
+### #goto(version)
+migrate to a specific version
+
+##### Arguments
+| name | type | description |
+| --- | --- | --- |
+| version | *String* | the target version |
+
+##### Returns
+- promise - resolves to an array in the form of `[direction, pending]` where direction is either `up` or 'down' and pending is an array of migration ids
+
+##### Example
+```javascript
+migrator.goto('1.0.0')
+```
+
+
+### #up([options])
 run pending migrations
 
 ##### Arguments
 | name | type | description |
 | --- | --- | --- |
-| options | Object | options |
-| options.to | String | The (exclusive) id of the migration to roll back to. |
+| [options] | *Object* | options |
+| [options.to] | *String* | The (exclusive) id of the migration to roll back to. |
 
 ##### Returns
 - promise - resolves to an array of migration ids that were executed
