@@ -2,7 +2,7 @@ version: '2'
 services:
   migrator:
     build: .
-    command: npm run test
+    command: npm run coverage
     links:
      - cassandra:cassandra
     volumes:
