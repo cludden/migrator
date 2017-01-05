@@ -27,7 +27,8 @@
   },
   "dependencies": {
     "bluebird": "^3.4.1",
-    "retry": "^0.10.0"
+    "retry": "^0.10.0",
+    "source-map-support": "^0.4.8"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
