@@ -1,7 +1,7 @@
 # termigrator
 low level, database agnostic migration client. this library makes no assumption of what a migration looks like, how it stored, etc. why the name *termigrator*? partly because all migration related names have been taken on npm, but mostly because why not?
 
-
+![Termigrator](https://upload.wikimedia.org/wikipedia/en/b/b9/Terminator-2-judgement-day.jpg)
 
 ## Installing
 ```bash
