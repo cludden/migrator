@@ -12,13 +12,13 @@ function compact(coll) {
 }
 
 const migrator = new Migrator({
-      /**
-       * Execute a migration
-       * @param  {String} id - migration id
-       * @param  {String} method - migration method ['up', 'down']
-       * @return  {Promise} promise
-       * @this migrator
-       */
+  /**
+   * Execute a migration
+   * @param  {String} id - migration id
+   * @param  {String} method - migration method ['up', 'down']
+   * @return  {Promise} promise
+   * @this migrator
+   */
   execMigration(id, method) {
     return fs.readFileAsync(`${migrationPath}/${id}/${method}.cql`, 'utf8')
     .then((str) => {
@@ -32,11 +32,11 @@ const migrator = new Migrator({
   },
 
 
-      /**
-       * Find the last executed migration
-       * @return  {Promise} promise
-       * @this migrator
-       */
+  /**
+   * Find the last executed migration
+   * @return  {Promise} promise
+   * @this migrator
+   */
   getLastExecuted() {
     const cql = `SELECT * FROM version_history
         WHERE pk = 'schema_version'`;
@@ -49,10 +49,10 @@ const migrator = new Migrator({
   },
 
 
-      /**
-       * Get sorted list of all available migrations
-       * @return  {Promise} promise
-       */
+  /**
+   * Get sorted list of all available migrations
+   * @return  {Promise} promise
+   */
   getMigrations() {
     return fs.readdirAsync(`${migrationPath}`)
     .filter(item => fs.statAsync(`${migrationPath}/${item}`)
@@ -61,14 +61,14 @@ const migrator = new Migrator({
   },
 
 
-      /**
-       * Record migration events
-       * @param  {String} id - migration id
-       * @param  {String} method - migration method ['up', 'down']
-       * @param  {String} type - event type ['start', 'end']
-       * @return  {Promise} promise
-       * @this migrator
-       */
+  /**
+   * Record migration events
+   * @param  {String} id - migration id
+   * @param  {String} method - migration method ['up', 'down']
+   * @param  {String} type - event type ['start', 'end']
+   * @return  {Promise} promise
+   * @this migrator
+   */
   log(id, method, type) {
         // if this executing the first migration, ignore logging
     if (id === '1.0.0') {

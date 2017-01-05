@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [v1.0.0] - 2016-01-05
+
+### BREAKING CHANGES
+- extracted cli functionality out into separate project
+- switches eslint config from `standard` to `airbnb-base`
+- switches test framework from `tape` & `testdouble` to `mocha` & `chai`
+
+### Added
+- added `goto` method to move from current state to new state in either direction
+
+### Removed
+- removed unnecessary dependencies
+
+
+
+## [v0.4.1] - 2016-01-04
+
+### Fixed
+- Fixes build issues with cli
+
+
+
 ## [v0.4.0] - 2016-09-07
 
 ### Added
@@ -44,6 +66,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
 [Unreleased]: https://github.com/cludden/termigrator/compare/v0.4.0...HEAD
+[v1.0.0]: https://github.com/cludden/termigrator/compare/v0.4.1...v1.0.0
+[v0.4.1]: https://github.com/cludden/termigrator/compare/v0.4.0...v0.4.1
 [v0.4.0]: https://github.com/cludden/termigrator/compare/v0.3.0...v0.4.0
 [v0.3.0]: https://github.com/GaiamTV/gaia-core-api/compare/v0.2.1...v0.3.0
 [v0.3.0-0]: https://github.com/GaiamTV/gaia-core-api/compare/v0.2.1...v0.3.0-0
