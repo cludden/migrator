@@ -69,7 +69,6 @@ constructor function
 | options.getLastExecuted* | Function | A method in the form of `last() => promise` that is responsible for determining the id of the last executed migration. |
 | options.getMigrations* | Function | A method in the form of `getMigrations() => promise` that is responsible for providing the sorted list of migration ids. |
 | options.log* | Function | A method in the form of `log(id, method, event) => promise` that is responsible for logging migration activity. *id* is the migration id of the currently executing migration, *method* is the direction of the migration (up or down), and *event* is the migration event name (start or end) |
-| options.path* | String | The absolute path to the migration directory |
 
 
 ### #down(options)
