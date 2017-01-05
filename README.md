@@ -1,7 +1,7 @@
 # termigrator
 low level, database agnostic migration client. this library makes no assumption of what a migration looks like, how it stored, etc. why the name *termigrator*? partly because all migration related names have been taken on npm, but mostly because why not?
 
-![Termigrator](https://upload.wikimedia.org/wikipedia/en/b/b9/Terminator-2-judgement-day.jpg)
+
 
 ## Installing
 ```bash
@@ -44,10 +44,7 @@ const migrator = new Migrator({
     // .. return a promise
   },
 })
-```
-- perform forwards or backwards migrations directly
 
-```javascript
 // execute all pending migrations
 migrator.up().then(executed => console.log(executed))
 
@@ -56,25 +53,6 @@ migrator.up({ to: '1.0.0' })
 
 // rollback to a prior point
 migrator.down({ to: '0.9.0' })
-```
-- or use the included cli
-
-```javascript
-import { cli } from 'termigrator'
-
-/**
- * Define a function that returns a promise that resolves to your configured
- * migrator instance
- * @return {Promise} promise
- */
-function getMigrator() {
-  return connectToDatabase()
-  .then(db => {
-    return initializeMigrator(db)
-  })
-}
-
-cli(getMigrator).start()
 ```
 
 
@@ -218,73 +196,10 @@ migrator.up({ to: '1.0.0' })
 
 
 
-## CLI
-Basic usage
-```bash
-$ termigrator --help
-```
-
-### current
-```bash
-$ termigrator current
-```
-List the last executed migration
-
----
-
-### down
-```bash
-$ termigrator down
-```
-Run migrations in the *down* direction
-
-###### Options
-| name | description |
-| --- | --- |
-| -t, --to | the exclusive lower limit on the migrations to execute |
-
----
-
-### exec
-```bash
-$ termigrator exec <id> <method>
-```
-Execute a single migration method
-
-###### Options
-| name | description |
-| --- | --- |
-| -s, --silent | skip logging of migration events |
-
----
-
-### pending
-```bash
-$ termigrator pending
-```
-List all pending migrations for the current environment
-
----
-
-### up
-```bash
-$ termigrator up
-```
-Run pending migrations in the *up* direction
-
-###### Options
-| name | description |
-| --- | --- |
-| -t, --to | the inclusive upper limit on the migrations to execute |
-
----
-
-
-
 ## Testing
-run all tests
+run all tests **(requries Docker & Compose)**
 ```bash
-docker-compose up
+docker-compose run migrator
 ```
 
 
