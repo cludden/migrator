@@ -19,9 +19,9 @@ import { Migrator } from 'termigrator'
 
 const migrator = new Migrator({
   // define a migration handler that is responsible for executing the appropriate
-  // migration for the given id & method combination. this method should return a
+  // migration for the given id & direction combination. this method should return a
   // promise
-  execMigration(id, method) {
+  execMigration(id, direction) {
     // .. return a promise
   },
 
@@ -40,7 +40,7 @@ const migrator = new Migrator({
 
   // define a method for logging migration events. this method should return a
   // promise
-  log(id, method, event) {
+  log(id, direction, event) {
     // .. return a promise
   },
 })
@@ -57,6 +57,24 @@ migrator.down({ to: '0.9.0' })
 
 
 
+## CLI
+as of `v1.0.0`, the cli functionality has been extracted into a separate library: [termigrator-cli](https://github.com/cludden/termigrator-cli)
+```javascript
+import Cli from 'termigrator-cli'
+
+import migrator from './migrator'
+import pkg from './package.json'
+
+const cli = new Cli({
+  migrator,
+  version: pkg.version,
+})
+
+cli.start()
+```
+
+
+
 ## API
 ### Migrator(options)
 constructor function
@@ -65,10 +83,10 @@ constructor function
 | name | type | description |
 | --- | --- | --- |
 | options* | Object | options |
-| options.execMigration* | Function | A method in the form of `exec(id, method) => promise` that is responsible for executing the appropriate migration |
+| options.execMigration* | Function | A method in the form of `exec(id, direction) => promise` that is responsible for executing the appropriate migration |
 | options.getLastExecuted* | Function | A method in the form of `last() => promise` that is responsible for determining the id of the last executed migration. |
 | options.getMigrations* | Function | A method in the form of `getMigrations() => promise` that is responsible for providing the sorted list of migration ids. |
-| options.log* | Function | A method in the form of `log(id, method, event) => promise` that is responsible for logging migration activity. *id* is the migration id of the currently executing migration, *method* is the direction of the migration (up or down), and *event* is the migration event name (start or end) |
+| options.log* | Function | A method in the form of `log(id, direction, event) => promise` that is responsible for logging migration activity. *id* is the migration id of the currently executing migration, *direction* is the direction of the migration ("up" or "down"), and *event* is the migration event name ("start" or "end") |
 
 
 ### #down(options)
@@ -92,13 +110,13 @@ migrator.down({ to: '0.9.0' })
 
 
 ### #execute(id, method)
-execute a single migration in the specified direction. *note: this method is used by the #up and #down to execute migrations*
+execute a single migration in the specified direction. *note: this method is used by #up, #down, #goto to execute migrations*
 
 ##### Arguments
 | name | type | description |
 | --- | --- | --- |
 | id | String | the id of the migration to execute |
-| method | String | *up* or *down* |
+| direction | String | *up* or *down* |
 
 ##### Returns
 - promise - resolves to the id of the executed task
@@ -196,7 +214,7 @@ migrator.up({ to: '1.0.0' })
 
 
 ## Testing
-run all tests **(requries Docker & Compose)**
+run all tests *(requires Docker & Compose)*
 ```bash
 docker-compose run migrator
 ```
