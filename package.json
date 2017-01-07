@@ -7,6 +7,7 @@
     "build": "rm -rf dist && mkdir dist && babel lib -d dist",
     "coverage": "./node_modules/.bin/babel-node ./node_modules/.bin/babel-istanbul cover ./node_modules/.bin/_mocha test/tests/index.test.js test/tests/*.test.js -- --timeout 30000",
     "postversion": "npm run build",
+    "release": "npm run build && standard-version",
     "test": "mocha --compilers js:babel-register test/tests/index.test.js test/tests/*.test.js --timeout 30000"
   },
   "keywords": [
@@ -46,6 +47,7 @@
     "eslint-plugin-import": "^2.2.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
-    "semver-sort": "0.0.4"
+    "semver-sort": "0.0.4",
+    "standard-version": "^4.0.0"
   }
 }
