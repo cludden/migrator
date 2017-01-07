@@ -1,3 +1,22 @@
+# Change Log
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/cludden/termigrator/compare/v1.0.0...v1.1.0) (2017-01-07)
+
+
+### Bug Fixes
+
+* **docs:** updates README.md and package.json keywords ([31528b1](https://github.com/cludden/termigrator/commit/31528b1))
+
+
+### Features
+
+* **standard-version:** implements standard-version ([9b0b78a](https://github.com/cludden/termigrator/commit/9b0b78a))
+
+
+
 
 
 ## [v1.0.0] - 2016-01-05
