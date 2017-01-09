@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.2"></a>
+## [1.1.2](https://github.com/cludden/termigrator/compare/v1.1.1...v1.1.2) (2017-01-09)
+
+
+### Bug Fixes
+
+* **docs:** updates test documentation in README ([76dc993](https://github.com/cludden/termigrator/commit/76dc993))
+
+
+
 <a name="1.1.1"></a>
 ## [1.1.1](https://github.com/cludden/termigrator/compare/v1.1.0...v1.1.1) (2017-01-09)
 
