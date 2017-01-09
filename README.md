@@ -70,7 +70,7 @@ const cli = new Cli({
   version: pkg.version,
 })
 
-cli.start()
+cli.start(process.argv.slice(2))
 ```
 
 
@@ -131,7 +131,7 @@ migrator.execute('1.0.0', 'up')
 Get a list of migrations to be executed with direction to migrate to the specified version
 
 ##### Returns
-- promise - resolves to an array of migration ids that are ahead of the last executed migration
+- promise - resolves to an array in the form of `[direction, pending]` where direction is either `up` or 'down' and pending is an array of migration ids
 
 ##### Example
 ```javascript
@@ -184,7 +184,7 @@ migrate to a specific version
 | version | *String* | the target version |
 
 ##### Returns
-- promise - resolves to an array in the form of `[direction, pending]` where direction is either `up` or 'down' and pending is an array of migration ids
+- promise - resolves to an array of executed migrations
 
 ##### Example
 ```javascript

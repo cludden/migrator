@@ -1,14 +1,14 @@
 {
   "name": "termigrator",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "database agnostic migration client",
   "main": "./dist/index.js",
   "scripts": {
     "build": "rm -rf dist && mkdir dist && babel lib -d dist",
-    "coverage": "./node_modules/.bin/babel-node ./node_modules/.bin/babel-istanbul cover ./node_modules/.bin/_mocha test/tests/index.test.js test/tests/*.test.js -- --timeout 30000",
+    "coverage": "./node_modules/.bin/babel-node ./node_modules/.bin/babel-istanbul cover ./node_modules/.bin/_mocha test/tests/index.test.js test/tests/*.test.js",
     "postversion": "npm run build",
     "release": "npm run build && standard-version",
-    "test": "mocha --compilers js:babel-register test/tests/index.test.js test/tests/*.test.js --timeout 30000"
+    "test": "mocha --compilers js:babel-register test/tests/index.test.js test/tests/*.test.js"
   },
   "keywords": [
     "migrations",
