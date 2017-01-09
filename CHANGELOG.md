@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.1"></a>
+## [1.1.1](https://github.com/cludden/termigrator/compare/v1.1.0...v1.1.1) (2017-01-09)
+
+
+### Bug Fixes
+
+* **goto:** fixes issue with goto failing if no migrations have been executed, closes [#9](https://github.com/cludden/termigrator/issues/9) ([1d2a78f](https://github.com/cludden/termigrator/commit/1d2a78f))
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/cludden/termigrator/compare/v1.0.0...v1.1.0) (2017-01-07)
 
