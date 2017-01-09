@@ -214,9 +214,14 @@ migrator.up({ to: '1.0.0' })
 
 
 ## Testing
-run all tests *(requires Docker & Compose)*
+run all tests
 ```bash
-docker-compose run migrator
+npm test
+```
+
+run coverage
+```bash
+npm run coverage
 ```
 
 
