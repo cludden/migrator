@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.4"></a>
+## [1.1.4](https://github.com/cludden/termigrator/compare/v1.1.3...v1.1.4) (2017-05-16)
+
+
+### Bug Fixes
+
+* use "up" as direction in #getGotoVersions() when from === to ([2078da3](https://github.com/cludden/termigrator/commit/2078da3))
+
+
+
 <a name="1.1.3"></a>
 ## [1.1.3](https://github.com/cludden/termigrator/compare/v1.1.2...v1.1.3) (2017-05-16)
 
