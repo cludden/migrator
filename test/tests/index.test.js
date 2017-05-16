@@ -144,4 +144,9 @@ describe('Migrator', function () {
       expect(executed).to.deep.equal(['1', '2', '3', '4', '5']);
     });
   });
+
+  it('#getGotoVersions from end', function () {
+    return migrator.getLastExecuted()
+    .then(last => migrator.getGotoVersions(last));
+  });
 });
